@@ -5,10 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -20,6 +25,7 @@ public class GameScreen implements Screen {
     TextureAtlas atlas;
     Skin skin;
     Game parent;
+    ShapeRenderer shapeRenderer;
 
     public GameScreen(Game parent) {
         this.parent = parent;
@@ -36,12 +42,37 @@ public class GameScreen implements Screen {
         camera.update();
 
         stage = new Stage(viewport, batch);
+
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
+        Image img = new Image(new Texture("background.png"));
+        img.setSize(900, 900);
+        img.setPosition(Gdx.graphics.getWidth()/2 - img.getWidth()/2,
+                800);
+        Label score = new Label("Score: ", skin);
+        Label scoreCount = new Label("0", skin);
+
+        Table scoreTable = new Table();
+        scoreTable.setFillParent(true);
+        scoreTable.padTop(300);
+
+        scoreTable.add(score);
+        scoreTable.add(scoreCount);
+
+        Table controlTable = new Table();
+        controlTable.setFillParent(true);
+        controlTable.center();
+        controlTable.bottom();
+
+
+        stage.addActor(img);
+        stage.addActor(scoreTable);
+        stage.addActor(controlTable);
 
     }
 
