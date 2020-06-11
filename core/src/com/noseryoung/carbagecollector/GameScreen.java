@@ -34,10 +34,12 @@ public class GameScreen implements Screen {
     Skin skin;
     Game parent;
     ShapeRenderer shapeRenderer;
+    private int score;
+    private Label scoreCount;
     private Sprite background;
     private final Texture backgroundImg;
-    GarbageCollector garbageCollector;
-    Sprite garbage;
+    private GarbageCollector garbageCollector;
+    private Garbage garbage;
 
     public GameScreen(Game parent) {
         this.parent = parent;
@@ -57,13 +59,14 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
 
-        garbageCollector = new GarbageCollector();
-
         backgroundImg = new Texture("background.png");
         background = new Sprite(backgroundImg);
         background.scale(2.2f);
-        background.setX(Gdx.graphics.getWidth()/2 - background.getWidth()/2);
+        background.setX(Gdx.graphics.getWidth() / 2 - background.getWidth() / 2);
         background.setY(1100);
+
+        garbageCollector = new GarbageCollector();
+        garbage = new Garbage(890, 100, 1590, 800);
     }
 
     @Override
@@ -71,7 +74,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Label score = new Label("Score: ", skin);
-        Label scoreCount = new Label("0", skin);
+        scoreCount = new Label("0", skin);
 
         Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight26.png")));
         drawableUp.setMinHeight(150);
@@ -96,28 +99,28 @@ public class GameScreen implements Screen {
         upControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.getGarbageCollectorSprite().setRotation(0);
+                garbageCollector.setRotation(0);
             }
         });
 
         downControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.getGarbageCollectorSprite().setRotation(180);
+                garbageCollector.setRotation(180);
             }
         });
 
         leftControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.getGarbageCollectorSprite().setRotation(90);
+                garbageCollector.setRotation(90);
             }
         });
 
         rightControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.getGarbageCollectorSprite().setRotation(270);
+                garbageCollector.setRotation(270);
             }
         });
 
@@ -146,17 +149,11 @@ public class GameScreen implements Screen {
         stage.addActor(controlTableUpDown);
         stage.addActor(controlTableLeftRight);
 
-        garbage = getGarbage();
-
-        garbage.setPosition((float) Math.random() * ((int) (background.getWidth() + 100) - 100 + 1) + 100, (float) (Math.random() * (Gdx.graphics.getHeight() - 1100) + 1) + 1100);
-
-
-
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(31/255f, 0/255f, 41/255f, 1);
+        Gdx.gl.glClearColor(31 / 255f, 0 / 255f, 41 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act();
@@ -164,38 +161,23 @@ public class GameScreen implements Screen {
 
         batch.begin();
         background.draw(batch);
-        garbageCollector.draw(batch);
-        garbageCollector.move();
-        garbage.draw(batch);
         batch.end();
 
+        checkGarbageCollision();
+        garbageCollector.render(batch);
+        garbage.render(batch);
+
+        if (garbageCollector.getX() <= 90 || garbageCollector.getX() >= 900 || garbageCollector.getY() <= 790 || garbageCollector.getY() >= 1600) {
+            parent.setScreen(new FailScreen(parent));
+        }
     }
 
-    public Sprite getGarbage() {
-        ArrayList<Sprite> recycleItems = new ArrayList<>();
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/beerBottle.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/jar.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/cup.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/cartonBox.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/newspaper.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/orangeCanister.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/paperBag.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/pizzaBox.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/redCanister.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/smallTinCan.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sodaBottle.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sodaCan.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sodaCup.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sprayBottle.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/tallTinCan.png")));
-        recycleItems.add(new Sprite(new Texture("Sprites/recycle/waterBottle.png")));
-
-        Sprite item = recycleItems.get((int) Math.random() * (recycleItems.size() - 0) + 1);
-
-        return item;
-
+    private void checkGarbageCollision() {
+        if (garbageCollector.overlaps(garbage)) {
+            garbage.spawnGarbage(garbageCollector.getX(), garbageCollector.getY());
+            scoreCount.setText(score += 10);
+        }
     }
-
 
     @Override
     public void resize(int width, int height) {
