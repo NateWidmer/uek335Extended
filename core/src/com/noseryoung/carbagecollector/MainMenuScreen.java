@@ -55,7 +55,7 @@ public class MainMenuScreen implements Screen {
         Label poweredBy = new Label("Powered By", skin);
         Image logo = new Image(new Texture("tomatoBagLogoWhite.png"));
         logo.setSize(75, 75);
-        Image garbageCollectorHome = new Image(new Texture("GarbageCollectorSide.png"));
+        Image garbageCollectorHome = new Image(new Texture("garbageCollectorSide.png"));
         garbageCollectorHome.setSize(255, 156);
         title.setFontScale(2);
 
