@@ -53,8 +53,10 @@ public class MainMenuScreen implements Screen {
 
         Label title = new Label("Garbage Collector", skin);
         Label poweredBy = new Label("Powered By", skin);
-        Image img = new Image(new Texture("tomatoBagLogoWhite.png"));
-        img.setSize(75, 75);
+        Image logo = new Image(new Texture("tomatoBagLogoWhite.png"));
+        logo.setSize(75, 75);
+        Image garbageCollectorHome = new Image(new Texture("GarbageCollectorSide.png"));
+        garbageCollectorHome.setSize(255, 156);
         title.setFontScale(2);
 
         TextButton playButton = new TextButton("Play", skin);
@@ -80,7 +82,9 @@ public class MainMenuScreen implements Screen {
         menuTable.center().padBottom(200);
 
         menuTable.add(title);
-        menuTable.row().padTop(200);
+        menuTable.row().padTop(100);
+        menuTable.add(garbageCollectorHome).size(garbageCollectorHome.getWidth(), garbageCollectorHome.getHeight());
+        menuTable.row().padTop(100);
         menuTable.add(playButton).padBottom(20);
         menuTable.row();
         menuTable.add(exitButton);
@@ -93,7 +97,7 @@ public class MainMenuScreen implements Screen {
         poweredByTable.padBottom(30).padRight(30);
 
         poweredByTable.add(poweredBy).padRight(20);
-        poweredByTable.add(img).size(img.getWidth(), img.getHeight());
+        poweredByTable.add(logo).size(logo.getWidth(), logo.getHeight());
 
         // Add Tables as Actors on Stage
 
