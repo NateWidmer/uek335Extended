@@ -23,6 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class GameScreen implements Screen {
     SpriteBatch batch;
     Stage stage;
@@ -35,6 +37,7 @@ public class GameScreen implements Screen {
     private Sprite background;
     private final Texture backgroundImg;
     GarbageCollector garbageCollector;
+    Sprite garbage;
 
     public GameScreen(Game parent) {
         this.parent = parent;
@@ -69,8 +72,6 @@ public class GameScreen implements Screen {
 
         Label score = new Label("Score: ", skin);
         Label scoreCount = new Label("0", skin);
-
-        Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
 
         Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight26.png")));
         drawableUp.setMinHeight(150);
@@ -145,6 +146,12 @@ public class GameScreen implements Screen {
         stage.addActor(controlTableUpDown);
         stage.addActor(controlTableLeftRight);
 
+        garbage = getGarbage();
+
+        garbage.setPosition((float) Math.random() * ((int) (background.getWidth() + 100) - 100 + 1) + 100, (float) (Math.random() * (Gdx.graphics.getHeight() - 1100) + 1) + 1100);
+
+
+
     }
 
     @Override
@@ -159,7 +166,33 @@ public class GameScreen implements Screen {
         background.draw(batch);
         garbageCollector.draw(batch);
         garbageCollector.move();
+        garbage.draw(batch);
         batch.end();
+
+    }
+
+    public Sprite getGarbage() {
+        ArrayList<Sprite> recycleItems = new ArrayList<>();
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/beerBottle.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/jar.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/cup.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/cartonBox.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/newspaper.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/orangeCanister.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/paperBag.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/pizzaBox.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/redCanister.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/smallTinCan.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sodaBottle.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sodaCan.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sodaCup.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/sprayBottle.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/tallTinCan.png")));
+        recycleItems.add(new Sprite(new Texture("Sprites/recycle/waterBottle.png")));
+
+        Sprite item = recycleItems.get((int) Math.random() * (recycleItems.size() - 0) + 1);
+
+        return item;
 
     }
 
