@@ -6,14 +6,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -26,6 +32,10 @@ public class GameScreen implements Screen {
     Skin skin;
     Game parent;
     ShapeRenderer shapeRenderer;
+    private Sprite garbageCollector;
+    private final Texture garbageCollectorImg;
+    private Sprite background;
+    private final Texture backgroundImg;
 
     public GameScreen(Game parent) {
         this.parent = parent;
@@ -44,18 +54,77 @@ public class GameScreen implements Screen {
         stage = new Stage(viewport, batch);
 
         shapeRenderer = new ShapeRenderer();
+
+        garbageCollectorImg = new Texture("garbageCollector.png");
+        garbageCollector = new Sprite(garbageCollectorImg);
+        garbageCollector.scale(1.5f);
+        garbageCollector.setX(Gdx.graphics.getWidth() / 2);
+        garbageCollector.setY(1200);
+        garbageCollector.rotate(270);
+
+        backgroundImg = new Texture("background.png");
+        background = new Sprite(backgroundImg);
+        background.scale(2.2f);
+        background.setX(Gdx.graphics.getWidth()/2 - background.getWidth()/2);
+        background.setY(1100);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Image img = new Image(new Texture("background.png"));
-        img.setSize(900, 900);
-        img.setPosition(Gdx.graphics.getWidth()/2 - img.getWidth()/2,
-                800);
         Label score = new Label("Score: ", skin);
         Label scoreCount = new Label("0", skin);
+
+        Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
+
+        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight26.png")));
+        drawableUp.setMinHeight(150);
+        drawableUp.setMinWidth(150);
+        ImageButton upControl = new ImageButton(drawableUp);
+
+        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight27.png")));
+        drawableDown.setMinHeight(150);
+        drawableDown.setMinWidth(150);
+        ImageButton downControl = new ImageButton(drawableDown);
+
+        Drawable drawableLeft = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight24.png")));
+        drawableLeft.setMinHeight(150);
+        drawableLeft.setMinWidth(150);
+        ImageButton leftControl = new ImageButton(drawableLeft);
+
+        Drawable drawableRight = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight25.png")));
+        drawableRight.setMinHeight(150);
+        drawableRight.setMinWidth(150);
+        ImageButton rightControl = new ImageButton(drawableRight);
+
+        upControl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                garbageCollector.setRotation(0);
+            }
+        });
+
+        downControl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                garbageCollector.setRotation(180);
+            }
+        });
+
+        leftControl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                garbageCollector.setRotation(90);
+            }
+        });
+
+        rightControl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                garbageCollector.setRotation(270);
+            }
+        });
 
         Table scoreTable = new Table();
         scoreTable.setFillParent(true);
@@ -64,15 +133,23 @@ public class GameScreen implements Screen {
         scoreTable.add(score);
         scoreTable.add(scoreCount);
 
-        Table controlTable = new Table();
-        controlTable.setFillParent(true);
-        controlTable.center();
-        controlTable.bottom();
+        Table controlTableUpDown = new Table();
+        controlTableUpDown.setFillParent(true);
+        controlTableUpDown.right().padRight(150);
+        controlTableUpDown.bottom().padBottom(225);
+        controlTableUpDown.add(upControl);
+        controlTableUpDown.row().pad(40, 0, 40, 0);
+        controlTableUpDown.add(downControl);
 
+        Table controlTableLeftRight = new Table();
+        controlTableLeftRight.left().padLeft(150);
+        controlTableLeftRight.bottom().padBottom(355);
+        controlTableLeftRight.add(leftControl).padRight(40);
+        controlTableLeftRight.add(rightControl);
 
-        stage.addActor(img);
         stage.addActor(scoreTable);
-        stage.addActor(controlTable);
+        stage.addActor(controlTableUpDown);
+        stage.addActor(controlTableLeftRight);
 
     }
 
@@ -83,6 +160,33 @@ public class GameScreen implements Screen {
 
         stage.act();
         stage.draw();
+
+        batch.begin();
+        background.draw(batch);
+        garbageCollector.draw(batch);
+        batch.end();
+
+    }
+
+    public void move(Sprite garbageCollector) {
+        do {
+            switch ((int) garbageCollector.getRotation()) {
+                case 0:
+                    garbageCollector.setY(+2);
+                    break;
+                case 90:
+                    garbageCollector.setX(-2);
+                    break;
+                case 180:
+                    garbageCollector.setY(-2);
+                    break;
+                case 270:
+                    garbageCollector.setX(+2);
+                    break;
+                default:
+                    break;
+            }
+        } while(true);
     }
 
     @Override
