@@ -32,10 +32,9 @@ public class GameScreen implements Screen {
     Skin skin;
     Game parent;
     ShapeRenderer shapeRenderer;
-    private Sprite garbageCollector;
-    private final Texture garbageCollectorImg;
     private Sprite background;
     private final Texture backgroundImg;
+    GarbageCollector garbageCollector;
 
     public GameScreen(Game parent) {
         this.parent = parent;
@@ -55,12 +54,7 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
 
-        garbageCollectorImg = new Texture("garbageCollector.png");
-        garbageCollector = new Sprite(garbageCollectorImg);
-        garbageCollector.scale(1.5f);
-        garbageCollector.setX(Gdx.graphics.getWidth() / 2);
-        garbageCollector.setY(1200);
-        garbageCollector.rotate(270);
+        garbageCollector = new GarbageCollector();
 
         backgroundImg = new Texture("background.png");
         background = new Sprite(backgroundImg);
@@ -101,28 +95,28 @@ public class GameScreen implements Screen {
         upControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.setRotation(0);
+                garbageCollector.getGarbageCollectorSprite().setRotation(0);
             }
         });
 
         downControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.setRotation(180);
+                garbageCollector.getGarbageCollectorSprite().setRotation(180);
             }
         });
 
         leftControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.setRotation(90);
+                garbageCollector.getGarbageCollectorSprite().setRotation(90);
             }
         });
 
         rightControl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                garbageCollector.setRotation(270);
+                garbageCollector.getGarbageCollectorSprite().setRotation(270);
             }
         });
 
@@ -164,30 +158,11 @@ public class GameScreen implements Screen {
         batch.begin();
         background.draw(batch);
         garbageCollector.draw(batch);
+        garbageCollector.move();
         batch.end();
 
     }
 
-    public void move(Sprite garbageCollector) {
-        do {
-            switch ((int) garbageCollector.getRotation()) {
-                case 0:
-                    garbageCollector.setY(+2);
-                    break;
-                case 90:
-                    garbageCollector.setX(-2);
-                    break;
-                case 180:
-                    garbageCollector.setY(-2);
-                    break;
-                case 270:
-                    garbageCollector.setX(+2);
-                    break;
-                default:
-                    break;
-            }
-        } while(true);
-    }
 
     @Override
     public void resize(int width, int height) {
