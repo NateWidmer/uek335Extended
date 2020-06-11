@@ -72,22 +72,22 @@ public class GameScreen implements Screen {
 
         Drawable background = new TextureRegionDrawable(new TextureRegion(new Texture("background.png")));
 
-        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight26.png")));
+        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight26.png")));
         drawableUp.setMinHeight(150);
         drawableUp.setMinWidth(150);
         ImageButton upControl = new ImageButton(drawableUp);
 
-        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight27.png")));
+        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight27.png")));
         drawableDown.setMinHeight(150);
         drawableDown.setMinWidth(150);
         ImageButton downControl = new ImageButton(drawableDown);
 
-        Drawable drawableLeft = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight24.png")));
+        Drawable drawableLeft = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight24.png")));
         drawableLeft.setMinHeight(150);
         drawableLeft.setMinWidth(150);
         ImageButton leftControl = new ImageButton(drawableLeft);
 
-        Drawable drawableRight = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/shadedLight/shadedLight25.png")));
+        Drawable drawableRight = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight25.png")));
         drawableRight.setMinHeight(150);
         drawableRight.setMinWidth(150);
         ImageButton rightControl = new ImageButton(drawableRight);
