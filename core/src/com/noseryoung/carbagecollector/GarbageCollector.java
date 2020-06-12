@@ -70,6 +70,29 @@ public class GarbageCollector extends Rectangle {
             wagon.render(batch);
     }
 
+    public void dispose(){
+        garbageCollectorImg.dispose();
+        for (GarbageWagon wagon : garbageWagons) {
+            wagon.dispose();
+        }
+    }
+
+    public ArrayList<GarbageWagon> getGarbageWagons() {
+        return garbageWagons;
+    }
+
+    public void setGarbageWagons(ArrayList<GarbageWagon> garbageWagons) {
+        this.garbageWagons = garbageWagons;
+    }
+
+    public Texture getGarbageCollectorImg() {
+        return garbageCollectorImg;
+    }
+
+    public int getRotation() {
+        return rotation;
+    }
+
     public void setRotation(int rotation) {
         this.rotation = rotation;
 

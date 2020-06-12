@@ -222,5 +222,7 @@ public class GameScreen implements Screen {
         stage.dispose();
         batch.dispose();
         backgroundImg.dispose();
+        garbage.dispose();
+        garbageCollector.dispose();
     }
 }

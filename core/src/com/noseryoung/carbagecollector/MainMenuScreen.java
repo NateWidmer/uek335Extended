@@ -27,6 +27,8 @@ public class MainMenuScreen implements Screen {
     TextureAtlas atlas;
     Skin skin;
     Game parent;
+    Texture logoTexture;
+    Texture garbageCollector;
 
     public MainMenuScreen(Game parent) {
         this.parent = parent;
@@ -53,9 +55,11 @@ public class MainMenuScreen implements Screen {
 
         Label title = new Label("Garbage Collector", skin);
         Label poweredBy = new Label("Powered By", skin);
-        Image logo = new Image(new Texture("tomatoBagLogoWhite.png"));
+        logoTexture = new Texture("tomatoBagLogoWhite.png");
+        Image logo = new Image(logoTexture);
         logo.setSize(75, 75);
-        Image garbageCollectorHome = new Image(new Texture("garbageCollectorSide.png"));
+        garbageCollector = new Texture("garbageCollectorSide.png");
+        Image garbageCollectorHome = new Image(garbageCollector);
         garbageCollectorHome.setSize(255, 156);
         title.setFontScale(2);
 
@@ -144,5 +148,7 @@ public class MainMenuScreen implements Screen {
         atlas.dispose();
         stage.dispose();
         batch.dispose();
+        logoTexture.dispose();
+        garbageCollector.dispose();
     }
 }

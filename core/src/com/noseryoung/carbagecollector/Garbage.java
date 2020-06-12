@@ -26,7 +26,7 @@ public class Garbage extends Rectangle {
     }
 
     public void spawnGarbage(float xGarbageCollector, float yGarbageCollector) {
-        garbage = getGarbage();
+        garbage = new Texture(getGarbage());
         float xCoordinate;
         float yCoordinate;
         do{
@@ -44,29 +44,32 @@ public class Garbage extends Rectangle {
         batch.end();
     }
 
-    public Texture getGarbage() {
-        ArrayList<Texture> recycleItems = new ArrayList<>();
-        recycleItems.add(new Texture("Sprites/recycle/beerBottle.png"));
-        recycleItems.add(new Texture("Sprites/recycle/jar.png"));
-        recycleItems.add(new Texture("Sprites/recycle/cup.png"));
-        recycleItems.add(new Texture("Sprites/recycle/cartonBox.png"));
-        recycleItems.add(new Texture("Sprites/recycle/newspaper.png"));
-        recycleItems.add(new Texture("Sprites/recycle/orangeCanister.png"));
-        recycleItems.add(new Texture("Sprites/recycle/paperBag.png"));
-        recycleItems.add(new Texture("Sprites/recycle/pizzaBox.png"));
-        recycleItems.add(new Texture("Sprites/recycle/redCanister.png"));
-        recycleItems.add(new Texture("Sprites/recycle/smallTinCan.png"));
-        recycleItems.add(new Texture("Sprites/recycle/sodaBottle.png"));
-        recycleItems.add(new Texture("Sprites/recycle/sodaCan.png"));
-        recycleItems.add(new Texture("Sprites/recycle/sodaCup.png"));
-        recycleItems.add(new Texture("Sprites/recycle/sprayBottle.png"));
-        recycleItems.add(new Texture("Sprites/recycle/tallTinCan.png"));
-        recycleItems.add(new Texture("Sprites/recycle/waterBottle.png"));
+    public void dispose(){
+        garbage.dispose();
+    }
+
+    public String getGarbage() {
+        ArrayList<String> recycleItems = new ArrayList<>();
+        recycleItems.add("Sprites/recycle/beerBottle.png");
+        recycleItems.add("Sprites/recycle/jar.png");
+        recycleItems.add("Sprites/recycle/cup.png");
+        recycleItems.add("Sprites/recycle/cartonBox.png");
+        recycleItems.add("Sprites/recycle/newspaper.png");
+        recycleItems.add("Sprites/recycle/orangeCanister.png");
+        recycleItems.add("Sprites/recycle/paperBag.png");
+        recycleItems.add("Sprites/recycle/pizzaBox.png");
+        recycleItems.add("Sprites/recycle/redCanister.png");
+        recycleItems.add("Sprites/recycle/smallTinCan.png");
+        recycleItems.add("Sprites/recycle/sodaBottle.png");
+        recycleItems.add("Sprites/recycle/sodaCan.png");
+        recycleItems.add("Sprites/recycle/sodaCup.png");
+        recycleItems.add("Sprites/recycle/sprayBottle.png");
+        recycleItems.add("Sprites/recycle/tallTinCan.png");
+        recycleItems.add("Sprites/recycle/waterBottle.png");
 
         Random random = new Random();
-        Texture item = recycleItems.get(random.nextInt(16));
 
-        return item;
+        return recycleItems.get(random.nextInt(16));
 
     }
 }
