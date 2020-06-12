@@ -25,11 +25,11 @@ public class GarbageCollector extends Rectangle {
     }
 
     public void render(SpriteBatch batch) {
-        renderGarbageWagons(batch);
         move();
         batch.begin();
         batch.draw(garbageRegion, x, y, width / 2, height / 2, width, height, 1, 1, rotation);
         batch.end();
+        renderGarbageWagons(batch);
     }
 
     public void move() {
@@ -53,26 +53,20 @@ public class GarbageCollector extends Rectangle {
 
     public void addGarbageWagon() {
         if (garbageWagons.size() == 0) {
-            garbageWagons.add(new GarbageWagon(x, y, rotation, 1));
+            garbageWagons.add(new GarbageWagon(x, y, rotation));
         } else {
-            garbageWagons.add(new GarbageWagon(garbageWagons.get(garbageWagons.size() - 1).x, garbageWagons.get(garbageWagons.size() - 1).y, garbageWagons.get(garbageWagons.size() - 1).getRotation(), garbageWagons.size() + 1));
+            GarbageWagon lastWagon = garbageWagons.get(garbageWagons.size() - 1);
+            garbageWagons.add(new GarbageWagon(
+                    lastWagon.x,
+                    lastWagon.y,
+                    lastWagon.getRotation(),
+                    lastWagon.getPendingChanges()));
         }
     }
 
     public void renderGarbageWagons(SpriteBatch batch) {
-        float x =  this.x;
-        float y = this.y;
-        int rotation = this.rotation;
-
-        for (GarbageWagon wagon : garbageWagons) {
-            wagon.updatePosition(rotation, x, y);
-
+        for (GarbageWagon wagon : garbageWagons)
             wagon.render(batch);
-
-            x = wagon.getX();
-            y = wagon.getY();
-            rotation = wagon.getRotation();
-        }
     }
 
     public void rotateWagons(int collectorRotation) {
@@ -113,6 +107,11 @@ public class GarbageCollector extends Rectangle {
 
     public void setRotation(int rotation) {
         this.rotation = rotation;
+
+        PositionChange change = new PositionChange(x, y, rotation);
+        for (GarbageWagon wagon : garbageWagons) {
+            wagon.addPositionChange(change);
+        }
     }
 
 
