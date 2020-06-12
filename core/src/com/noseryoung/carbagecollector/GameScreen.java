@@ -179,9 +179,9 @@ public class GameScreen implements Screen {
         if (garbageCollector.overlaps(garbage)) {
             garbage.spawnGarbage(garbageCollector.getX(), garbageCollector.getY());
             scoreCountLabel.setText(score += 10);
-            // if (score % 3 == 0) {
+            if (score % 3 == 0) {
                 garbageCollector.addGarbageWagon();
-            // }
+            }
         }
     }
 
