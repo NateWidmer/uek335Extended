@@ -94,11 +94,19 @@ public class GarbageWagon extends Rectangle {
         }
     }
 
+    public void dispose(){
+        garbageWagon.dispose();
+    }
+
     public int getRotation() {
         return rotation;
     }
 
     public void setRotation(int rotation) {
         this.rotation = rotation;
+    }
+
+    public Texture getGarbageWagon() {
+        return garbageWagon;
     }
 }

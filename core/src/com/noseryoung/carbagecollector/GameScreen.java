@@ -98,7 +98,6 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(0);
-                garbageCollector.rotateWagons(0);
             }
         });
 
@@ -106,7 +105,6 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(180);
-                garbageCollector.rotateWagons(180);
 
             }
         });
@@ -115,7 +113,6 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(90);
-                garbageCollector.rotateWagons(90);
 
             }
         });
@@ -124,7 +121,6 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(270);
-                garbageCollector.rotateWagons(270);
 
             }
         });
@@ -216,5 +212,8 @@ public class GameScreen implements Screen {
         atlas.dispose();
         stage.dispose();
         batch.dispose();
+        backgroundImg.dispose();
+        garbage.dispose();
+        garbageCollector.dispose();
     }
 }

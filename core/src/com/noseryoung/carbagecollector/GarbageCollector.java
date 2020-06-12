@@ -69,24 +69,11 @@ public class GarbageCollector extends Rectangle {
             wagon.render(batch);
     }
 
-    public void rotateWagons(int collectorRotation) {
-//        if (garbageWagons != null) {
-//            for (GarbageWagon wagon : garbageWagons) {
-//                do{
-//                    if(garbageWagons.size() == 1){
-//                        if(wagon.getX() == x && wagon.getY() == y){
-//                            wagon.setRotation(collectorRotation);
-//                            break;
-//                        }
-//                    }else{
-//                        if(wagon.getX() == garbageWagons.get(garbageWagons.indexOf(wagon) - 1).getX() && wagon.getY() == garbageWagons.get(garbageWagons.indexOf(wagon) - 1).getY()){
-//                            wagon.setRotation(collectorRotation);
-//                            break;
-//                        }
-//                    }
-//                } while(true);
-//            }
-//        }
+    public void dispose(){
+        garbageCollectorImg.dispose();
+        for (GarbageWagon wagon : garbageWagons) {
+            wagon.dispose();
+        }
     }
 
     public ArrayList<GarbageWagon> getGarbageWagons() {
