@@ -2,7 +2,6 @@ package com.noseryoung.carbagecollector;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -65,7 +64,7 @@ public class Garbage extends Rectangle {
         recycleItems.add(new Texture("Sprites/recycle/waterBottle.png"));
 
         Random random = new Random();
-        Texture item = recycleItems.get(random.nextInt(recycleItems.size() - 0 + 1));
+        Texture item = recycleItems.get(random.nextInt(16));
 
         return item;
 

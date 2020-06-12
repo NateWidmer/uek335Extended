@@ -23,8 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
-
 public class GameScreen implements Screen {
     SpriteBatch batch;
     Stage stage;
@@ -35,7 +33,7 @@ public class GameScreen implements Screen {
     Game parent;
     ShapeRenderer shapeRenderer;
     private int score;
-    private Label scoreCount;
+    private Label scoreCountLabel;
     private Sprite background;
     private final Texture backgroundImg;
     private GarbageCollector garbageCollector;
@@ -74,7 +72,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Label score = new Label("Score: ", skin);
-        scoreCount = new Label("0", skin);
+        scoreCountLabel = new Label("0", skin);
 
         Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(new Texture("Sprites/buttons/shadedLight26.png")));
         drawableUp.setMinHeight(150);
@@ -100,6 +98,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(0);
+                garbageCollector.rotateWagons(0);
             }
         });
 
@@ -107,6 +106,8 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(180);
+                garbageCollector.rotateWagons(180);
+
             }
         });
 
@@ -114,6 +115,8 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(90);
+                garbageCollector.rotateWagons(90);
+
             }
         });
 
@@ -121,6 +124,8 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 garbageCollector.setRotation(270);
+                garbageCollector.rotateWagons(270);
+
             }
         });
 
@@ -129,7 +134,7 @@ public class GameScreen implements Screen {
         scoreTable.padTop(300);
 
         scoreTable.add(score);
-        scoreTable.add(scoreCount);
+        scoreTable.add(scoreCountLabel);
 
         Table controlTableUpDown = new Table();
         controlTableUpDown.setFillParent(true);
@@ -167,6 +172,7 @@ public class GameScreen implements Screen {
         garbageCollector.render(batch);
         garbage.render(batch);
 
+
         if (garbageCollector.getX() <= 90 || garbageCollector.getX() >= 900 || garbageCollector.getY() <= 790 || garbageCollector.getY() >= 1600) {
             parent.setScreen(new FailScreen(parent));
         }
@@ -175,7 +181,10 @@ public class GameScreen implements Screen {
     private void checkGarbageCollision() {
         if (garbageCollector.overlaps(garbage)) {
             garbage.spawnGarbage(garbageCollector.getX(), garbageCollector.getY());
-            scoreCount.setText(score += 10);
+            scoreCountLabel.setText(score += 10);
+            // if (score % 3 == 0) {
+                garbageCollector.addGarbageWagon();
+            // }
         }
     }
 
