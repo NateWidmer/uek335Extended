@@ -57,13 +57,48 @@ public class GarbageWagon extends Rectangle {
 
     private void applyChange(PositionChange change) {
         positionChanges.remove(change);
+
+        float diff;
+        switch (rotation) {
+            case 0:
+                diff = y - change.y;
+                break;
+            case 90:
+                diff = change.x - x;
+                break;
+            case 180:
+                diff = change.y - y;
+                break;
+            case 270:
+                diff = x - change.x;
+                break;
+            default:
+                diff = 0;
+        }
+
         x = change.x;
         y = change.y;
+
+        switch (change.rotation) {
+            case 0:
+                y = change.y + diff;
+                break;
+            case 90:
+                x = change.x - diff;
+                break;
+            case 180:
+                y = change.y - diff;
+                break;
+            case 270:
+                x = change.x + diff;
+                break;
+        }
+
         rotation = change.rotation;
     }
 
     public ArrayList<PositionChange> getPendingChanges() {
-        return (ArrayList<PositionChange>) positionChanges.clone();
+        return (ArrayList) positionChanges.clone();
     }
 
     public void move() {
@@ -76,18 +111,19 @@ public class GarbageWagon extends Rectangle {
                 applyChange(change);
             }
         }
+        float step = 150 * Gdx.graphics.getDeltaTime();
         switch (rotation) {
             case 0:
-                y += 2;
+                y += step;
                 break;
             case 90:
-                x -= 2;
+                x -= step;
                 break;
             case 180:
-                y -= 2;
+                y -= step;
                 break;
             case 270:
-                x += 2;
+                x += step;
                 break;
             default:
                 break;

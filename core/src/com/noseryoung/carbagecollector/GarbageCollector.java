@@ -33,18 +33,19 @@ public class GarbageCollector extends Rectangle {
     }
 
     public void move() {
+        float step = 150 * Gdx.graphics.getDeltaTime();
         switch (rotation) {
             case 0:
-                y += 2;
+                y += step;
                 break;
             case 90:
-                x -= 2;
+                x -= step;
                 break;
             case 180:
-                y -= 2;
+                y -= step;
                 break;
             case 270:
-                x += 2;
+                x += step;
                 break;
             default:
                 break;
