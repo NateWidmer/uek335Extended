@@ -28,12 +28,9 @@ public class FailScreen implements Screen {
     TextureAtlas atlas;
     Skin skin;
     Game parent;
-<<<<<<< HEAD
     private int score;
     private Label scoreCount;
-=======
     Texture garbageCollector;
->>>>>>> e8bf4dbd6023ba0bfb13e64f95d9260a8b238cf4
 
     public FailScreen(Game parent, int score) {
         this.parent = parent;
@@ -62,15 +59,10 @@ public class FailScreen implements Screen {
 
         Label gameOver = new Label("Game Over", skin);
         gameOver.setFontScale(2);
-<<<<<<< HEAD
         scoreCount = new Label("Your Score: ", skin);
         scoreCount.setFontScale(1);
-
-        Image garbageCollectorHome = new Image(new Texture("garbageCollectorSide.png"));
-=======
         garbageCollector = new Texture("garbageCollectorSide.png");
         Image garbageCollectorHome = new Image(garbageCollector);
->>>>>>> e8bf4dbd6023ba0bfb13e64f95d9260a8b238cf4
         garbageCollectorHome.setSize(255, 156);
 
         TextButton retryButton = new TextButton("Retry", skin);
