@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -27,8 +28,10 @@ public class FailScreen implements Screen {
     TextureAtlas atlas;
     Skin skin;
     Game parent;
+    private int score;
+    private Label scoreCount;
 
-    public FailScreen(Game parent) {
+    public FailScreen(Game parent, int score) {
         this.parent = parent;
 
         atlas = new TextureAtlas("skin/vhs-ui.atlas");
@@ -43,6 +46,8 @@ public class FailScreen implements Screen {
         camera.update();
 
         stage = new Stage(viewport, batch);
+
+        this.score = score;
     }
 
     @Override
@@ -53,6 +58,9 @@ public class FailScreen implements Screen {
 
         Label gameOver = new Label("Game Over", skin);
         gameOver.setFontScale(2);
+        scoreCount = new Label("Your Score: ", skin);
+        scoreCount.setFontScale(1);
+
         Image garbageCollectorHome = new Image(new Texture("garbageCollectorSide.png"));
         garbageCollectorHome.setSize(255, 156);
 
@@ -76,9 +84,11 @@ public class FailScreen implements Screen {
 
         Table menuTable = new Table();
         menuTable.setFillParent(true);
-        menuTable.center().padBottom(200);
+        menuTable.padBottom(200);
 
         menuTable.add(gameOver);
+        menuTable.row();
+        menuTable.add(scoreCount).padTop(50);
         menuTable.row().padTop(100);
         menuTable.add(garbageCollectorHome).size(garbageCollectorHome.getWidth(), garbageCollectorHome.getHeight());
         menuTable.row().padTop(100);
@@ -96,6 +106,8 @@ public class FailScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(31/255f, 0/255f, 41/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        scoreCount.setText(score);
 
         stage.act();
         stage.draw();

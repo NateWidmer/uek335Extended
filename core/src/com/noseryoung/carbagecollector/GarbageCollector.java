@@ -113,6 +113,4 @@ public class GarbageCollector extends Rectangle {
             wagon.addPositionChange(change);
         }
     }
-
-
 }

@@ -169,12 +169,13 @@ public class GameScreen implements Screen {
         batch.end();
 
         checkGarbageCollision();
+        checkWagonCollision();
         garbageCollector.render(batch);
         garbage.render(batch);
 
 
         if (garbageCollector.getX() <= 90 || garbageCollector.getX() >= 900 || garbageCollector.getY() <= 790 || garbageCollector.getY() >= 1600) {
-            parent.setScreen(new FailScreen(parent));
+            parent.setScreen(new FailScreen(parent, score));
         }
     }
 
@@ -185,6 +186,14 @@ public class GameScreen implements Screen {
             // if (score % 3 == 0) {
                 garbageCollector.addGarbageWagon();
             // }
+        }
+    }
+
+    private void checkWagonCollision() {
+        for (GarbageWagon wagon: garbageCollector.getGarbageWagons()) {
+            if (garbageCollector.getGarbageWagons().indexOf(wagon) != 0 && garbageCollector.overlaps(wagon)) {
+                parent.setScreen(new FailScreen(parent, score));
+            }
         }
     }
 
