@@ -33,18 +33,19 @@ public class GarbageCollector extends Rectangle {
     }
 
     public void move() {
+        float step = 150 * Gdx.graphics.getDeltaTime();
         switch (rotation) {
             case 0:
-                y += 2;
+                y += step;
                 break;
             case 90:
-                x -= 2;
+                x -= step;
                 break;
             case 180:
-                y -= 2;
+                y -= step;
                 break;
             case 270:
-                x += 2;
+                x += step;
                 break;
             default:
                 break;
@@ -67,42 +68,6 @@ public class GarbageCollector extends Rectangle {
     public void renderGarbageWagons(SpriteBatch batch) {
         for (GarbageWagon wagon : garbageWagons)
             wagon.render(batch);
-    }
-
-    public void rotateWagons(int collectorRotation) {
-//        if (garbageWagons != null) {
-//            for (GarbageWagon wagon : garbageWagons) {
-//                do{
-//                    if(garbageWagons.size() == 1){
-//                        if(wagon.getX() == x && wagon.getY() == y){
-//                            wagon.setRotation(collectorRotation);
-//                            break;
-//                        }
-//                    }else{
-//                        if(wagon.getX() == garbageWagons.get(garbageWagons.indexOf(wagon) - 1).getX() && wagon.getY() == garbageWagons.get(garbageWagons.indexOf(wagon) - 1).getY()){
-//                            wagon.setRotation(collectorRotation);
-//                            break;
-//                        }
-//                    }
-//                } while(true);
-//            }
-//        }
-    }
-
-    public ArrayList<GarbageWagon> getGarbageWagons() {
-        return garbageWagons;
-    }
-
-    public void setGarbageWagons(ArrayList<GarbageWagon> garbageWagons) {
-        this.garbageWagons = garbageWagons;
-    }
-
-    public Texture getGarbageCollectorImg() {
-        return garbageCollectorImg;
-    }
-
-    public int getRotation() {
-        return rotation;
     }
 
     public void setRotation(int rotation) {
